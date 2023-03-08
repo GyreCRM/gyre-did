@@ -11,7 +11,7 @@ export async function getDids(userId) {
         const res = await axios.get(`${URL}/users`, {
             params: { userId },
         });
-        return res.data.result;
+        return res.data;
     } catch (error) {
         throw new Error(error);
     }
@@ -28,7 +28,7 @@ export async function postDid(body) {
             },
         });
 
-        return res.data.result;
+        return res.data;
     } catch (error) {
         throw new Error(error);
     }

@@ -26,11 +26,11 @@ const theme = createTheme();
 export default function DIDApplicationForm() {
     const user = useRecoilValue(userState);
     const [values, setValues] = useState({
-        userId: user.id,
-        bootcampType: '',
-        fundamentalNumber: '',
-        eduStartDate: '',
-        eduCompleteDate: '',
+        name: '',
+        studentId: '',
+        university: '',
+        course: '',
+        eduDate: '',
     });
     const navigate = useNavigate();
 
@@ -42,10 +42,18 @@ export default function DIDApplicationForm() {
     const handleSubmit = async event => {
         event.preventDefault();
         try {
-            await postDid(values);
-            navigate('/did/search');
+            const clickOk = window.confirm('Are you sure you want to request?');
+            if (clickOk) {
+                const response = await postDid(values);
+                if (!response) {
+                    alert('Request failed');
+                    return;
+                }
+            } else {
+                alert('Cancel was pressed');
+            }
         } catch (err) {
-            console.log('요청 실패');
+            console.log('Server Error', err);
         }
     };
 
@@ -104,10 +112,9 @@ export default function DIDApplicationForm() {
                                 <TextField
                                     required
                                     fullWidth
-                                    name="studentID"
+                                    name="studentId"
                                     label="Student ID"
-                                    type="studentID"
-                                    id="studentID"
+                                    id="studentId"
                                     autoComplete="new-studentID"
                                     onChange={handleChange}
                                 />
@@ -119,16 +126,19 @@ export default function DIDApplicationForm() {
                                     </InputLabel>
                                     <Select
                                         labelId="demo-simple-select-label"
-                                        id="bootcampType"
-                                        name="bootcampType"
+                                        id="university"
+                                        name="university"
                                         label="University Name"
                                         defaultValue=""
                                         onChange={handleChange}
                                     >
-                                        <MenuItem value={1}>
+                                        <MenuItem value="TON University">
                                             TON University
                                         </MenuItem>
-                                        <MenuItem value={2} disabled>
+                                        <MenuItem
+                                            value="Cardano University"
+                                            disabled
+                                        >
                                             Cardano University
                                         </MenuItem>
                                     </Select>
@@ -141,16 +151,16 @@ export default function DIDApplicationForm() {
                                     </InputLabel>
                                     <Select
                                         labelId="demo-simple-select-label"
-                                        id="bootcampType"
-                                        name="bootcampType"
-                                        label="University Name"
+                                        id="course"
+                                        name="course"
+                                        label="Course Name"
                                         defaultValue=""
                                         onChange={handleChange}
                                     >
-                                        <MenuItem value={1}>
+                                        <MenuItem value="FunC Demo Class">
                                             FunC Demo Class
                                         </MenuItem>
-                                        <MenuItem value={2}>
+                                        <MenuItem value="hackaTon Class">
                                             hackaTon Class
                                         </MenuItem>
                                     </Select>
