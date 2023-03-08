@@ -1,0 +1,61 @@
+version: "3.9"
+services:
+  frontend-holder:
+    container_name: frontend-holder
+    image: frontend-holder
+    build: ./frontend-holder
+    volumes:
+      - ./frontend-holder:/app
+      - /app/node_modules
+    working_dir: /app
+    tty: true
+    stdin_open: true
+    restart: always
+    ports:
+      - "3000:3000"
+
+  frontend-issuer:
+    container_name: frontend-issuer
+    image: frontend-issuer
+    build: ./frontend-issuer
+    volumes:
+      - ./frontend-issuer:/app
+      - /app/node_modules
+    working_dir: /app
+    tty: true
+    stdin_open: true
+    restart: always
+    ports:
+      - "3001:3000"
+
+  backend:
+    container_name: backend
+    image: backend
+    build: ./backend
+    restart: always
+    volumes:
+      - ./backend:/app
+      - /app/node_modules
+    environment:
+      WAIT_HOSTS: db:3306
+    env_file:
+      - .env
+    ports:
+      - "4000:${PORT}"
+
+  db:
+    container_name: db
+    image: mysql:latest
+    platform: linux/amd64
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: ${DB_PASSWORD}
+      MYSQL_DATABASE: ${DB_DATABASE}
+    # Currently, it is for development purposes, so there is no volume setting.
+
+  adminer: # db client
+    container_name: adminer
+    image: adminer:latest
+    restart: always
+    ports:
+      - 8080:8080
