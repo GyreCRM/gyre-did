@@ -5,16 +5,17 @@ const didService = new DIDService();
 
 const router = express.Router();
 
-router.get("/", async (req, res) => {
+router.get("/", async (req, res, next) => {
   try {
     const result = await didService.getAlldids();
     return res.status(200).send(result);
   } catch (err) {
     console.log(err);
+    return next(err);
   }
 });
 
-router.get("/:id", async (req, res) => {
+router.get("/:id", async (req, res, next) => {
   try {
     const { id } = req.params;
     const result = await didService.getDid(id);
@@ -24,10 +25,11 @@ router.get("/:id", async (req, res) => {
     return res.status(200).send(result);
   } catch (err) {
     console.log(err);
+    return next(err);
   }
 });
 
-router.post("/", async (req, res) => {
+router.post("/", async (req, res, next) => {
   try {
     const { name, studentId, university, course, eduDate } = req.body;
     const result = await didService.createDid(
@@ -40,10 +42,11 @@ router.post("/", async (req, res) => {
     return res.status(201).send(result);
   } catch (err) {
     console.log(err);
+    return next(err);
   }
 });
 
-router.put("/:id/status", async (req, res) => {
+router.put("/:id/status", async (req, res, next) => {
   try {
     const { id } = req.params;
     const { status } = req.body;
@@ -60,6 +63,7 @@ router.put("/:id/status", async (req, res) => {
     return res.status(201).send(result);
   } catch (err) {
     console.log(err);
+    return next(err);
   }
 });
 
