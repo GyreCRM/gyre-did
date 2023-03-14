@@ -49,6 +49,7 @@ export default function DIDApplicationForm() {
                     alert('Request failed');
                     return;
                 }
+                window.location.reload();
             } else {
                 alert('Cancel was pressed');
             }
