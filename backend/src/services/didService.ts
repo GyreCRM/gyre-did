@@ -1,5 +1,7 @@
 import { PrismaClient } from "@prisma/client";
 import dayjs from "dayjs";
+
+import storeFile from "../utils/storeFile";
 import sendCertificateToContract from "../utils/sendTransaction";
 
 const prisma = new PrismaClient();
@@ -45,6 +47,11 @@ class DIDService {
     } catch (err) {
       console.log(err);
     }
+  }
+
+  async storeFile(name, description) {
+    const result = await storeFile(name, description);
+    return result;
   }
 
   async sendDidToBlockchain(hash, studentId) {
