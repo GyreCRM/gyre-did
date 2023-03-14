@@ -5,7 +5,6 @@ import {
   Address,
   Cell,
   beginCell,
-  contractAddress,
 } from "ton-core";
 
 export default class DID implements Contract {
@@ -18,15 +17,13 @@ export default class DID implements Contract {
     provider: ContractProvider,
     via: Sender,
     hash: string,
-    student_id: number
+    studentId: number
   ) {
     const messageBody = beginCell()
       .storeUint(1, 32) // op
       .storeUint(12345, 64) // query_id
-      .storeUint(student_id, 32) // key (student_id)
-      // .storeStringRefTail("ddasdsa")
-      // .storeSlice("wooogy") // value (hash)
-      .storeRef(beginCell().storeStringRefTail(hash).endCell())
+      .storeUint(studentId, 32) // key (student_id)
+      .storeRef(beginCell().storeStringRefTail(hash).endCell()) // value (hash)
       .endCell();
     await provider.internal(via, {
       value: "0.03", // send 0.002 TON for gas
