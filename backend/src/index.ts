@@ -21,6 +21,6 @@ app
     console.log(`👌Express Server Running on PORT ${config.PORT}`);
   })
   .on("error", (err) => {
-    Logger.error(err);
+    console.error(err);
     process.exit(1);
   });
