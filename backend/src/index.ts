@@ -1,8 +1,8 @@
 import express from "express";
 import cors from "cors";
 
-import did from "./routes/did.js";
-import config from "./config/index.js";
+import did from "./routes/did";
+import config from "./config/index";
 
 const app = express();
 app.use(cors());
