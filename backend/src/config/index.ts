@@ -10,4 +10,7 @@ export default {
   TON_NETWORK: process.env.TON_NETWORK || "testnet",
   CONTRACT_ADDRESS: process.env.CONTRACT_ADDRESS || "",
   MNEMONIC: process.env.MNEMONIC || "",
+
+  // NFT Storage
+  NFT_STORAGE_API_KEY: process.env.NFT_STORAGE_API_KEY || "",
 };
