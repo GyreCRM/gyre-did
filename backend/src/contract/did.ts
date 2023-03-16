@@ -23,7 +23,7 @@ export default class DID implements Contract {
       .storeUint(1, 32) // op
       .storeUint(12345, 64) // query_id
       .storeUint(studentId, 32) // key (student_id)
-      .storeRef(beginCell().storeStringRefTail(hash).endCell()) // value (hash)
+      .storeSlice(beginCell().storeStringRefTail(hash).endCell().asSlice()) // value (hash)
       .endCell();
     await provider.internal(via, {
       value: "0.03", // send 0.002 TON for gas
