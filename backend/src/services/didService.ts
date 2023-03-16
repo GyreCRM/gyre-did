@@ -2,7 +2,7 @@ import { PrismaClient } from "@prisma/client";
 import dayjs from "dayjs";
 
 import storeFile from "../utils/storeFile";
-import sendCertificateToContract from "../utils/sendTransaction";
+import sendCertificateToContract from "../utils/sendCertificateToContract";
 
 const prisma = new PrismaClient();
 
