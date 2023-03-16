@@ -67,4 +67,15 @@ router.put("/:id/status", async (req, res, next) => {
   }
 });
 
+router.get("/:id/certificate", async (req, res, next) => {
+  try {
+    const { id } = req.params;
+    const certificate = await didService.getCertificate(id);
+    return res.status(200).send(certificate);
+  } catch (err) {
+    console.log(err);
+    return next(err);
+  }
+});
+
 export default router;

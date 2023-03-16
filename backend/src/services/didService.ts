@@ -3,6 +3,7 @@ import dayjs from "dayjs";
 
 import storeFile from "../utils/storeFile";
 import sendCertificateToContract from "../utils/sendCertificateToContract";
+import getCertificateFromContract from "../utils/getCertificateFromContract";
 
 const prisma = new PrismaClient();
 
@@ -56,6 +57,11 @@ class DIDService {
 
   async sendDidToBlockchain(hash, studentId) {
     await sendCertificateToContract(hash, studentId);
+  }
+
+  async getCertificate(studentId) {
+    const result = await getCertificateFromContract(studentId);
+    return result;
   }
 }
 
