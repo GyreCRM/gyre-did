@@ -57,8 +57,13 @@ router.put("/:id/status", async (req, res, next) => {
     if (did.status === "published") {
       return res.status(400).send({ message: "Did is already published" });
     }
-    const { ipnft, url } = await didService.storeFile(did.name, did.studentId);
-    await didService.sendDidToBlockchain(ipnft, did.studentId);
+    if (status === "published") {
+      const { ipnft, url } = await didService.storeFile(
+        did.name,
+        did.studentId
+      );
+      await didService.sendDidToBlockchain(ipnft, did.studentId);
+    }
     const result = await didService.updateDidStatus(id, status);
     return res.status(201).send(result);
   } catch (err) {
