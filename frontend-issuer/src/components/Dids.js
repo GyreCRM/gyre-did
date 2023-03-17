@@ -42,15 +42,24 @@ export default function Dids() {
     }
   };
 
-  const handleDID = async (didId) => {
-    try {
-      const { transactionHash } = await getTx(didId);
-      window.open(
-        `https://baobab.scope.klaytn.com/tx/${transactionHash}`,
-        "_blank"
-      );
-    } catch (err) {
-      alert(err);
+  const reject = async (id) => {
+    if (window.confirm("Are you sure you want to confirm?")) {
+      try {
+        buttonRef.current.disabled = true;
+        const response = await axios({
+          method: "put",
+          url: `${DOMAIN}/dids/${id}/status`,
+          headers: {
+            accept: "application/json",
+          },
+          data: { status: "rejected" },
+        });
+        if (response.status === 201) {
+          window.location.reload();
+        }
+      } catch (err) {
+        console.log(err);
+      }
     }
   };
 
@@ -68,6 +77,7 @@ export default function Dids() {
               {/* <th scope="col">TON Scan</th> */}
               <th scope="col">Status</th>
               <th scope="col">Confirm</th>
+              <th scope="col">Reject</th>
             </tr>
           </thead>
           <tbody>
@@ -81,19 +91,36 @@ export default function Dids() {
                   <td>{did.eduDate}</td>
                   <td>{did.status}</td>
                   <td>
-                    {did.status === "published" ? (
-                      <button
-                        type="button"
-                        className="btn btn-secondary btn-sm disabled">
-                        Confirmed
-                      </button>
-                    ) : (
+                    {did.status === "issued" ? (
                       <button
                         type="button"
                         className="btn btn-success btn-sm"
                         onClick={() => publish(did.id)}
                         ref={buttonRef}>
                         Confirm
+                      </button>
+                    ) : (
+                      <button
+                        type="button"
+                        className="btn btn-secondary btn-sm disabled">
+                        Confirm
+                      </button>
+                    )}
+                  </td>
+                  <td>
+                    {did.status === "issued" ? (
+                      <button
+                        type="button"
+                        className="btn btn-danger btn-sm"
+                        onClick={() => reject(did.id)}
+                        ref={buttonRef}>
+                        Reject
+                      </button>
+                    ) : (
+                      <button
+                        type="button"
+                        className="btn btn-secondary btn-sm disabled">
+                        Reject
                       </button>
                     )}
                   </td>
