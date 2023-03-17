@@ -28,6 +28,20 @@ services:
     ports:
       - "3001:3000"
 
+  frontend-verifier:
+    container_name: frontend-verifier
+    image: frontend-verifier
+    build: ./frontend-verifier
+    volumes:
+      - ./frontend-verifier:/app
+      - /app/node_modules
+    working_dir: /app
+    tty: true
+    stdin_open: true
+    restart: always
+    ports:
+      - "3002:3000"
+
   backend:
     container_name: backend
     image: backend
